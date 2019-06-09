@@ -1,0 +1,5 @@
+RTL SIGINT
+
+Programme which marshalls other software to scan various parts of the radio spectrum automagically and dumps the output to the terminal and a html file.
+
+

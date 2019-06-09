@@ -1,0 +1,45 @@
+#!/bin/bash
+
+THIS=$$;
+ME="$(basename $0)";
+
+duration=120
+scan_type="default"
+verbose=true
+log=false
+logfile="/tmp/rtl_sigint.log"
+network=true
+
+if ! options=$(getopt -u -n "$ME" -o d:n:t:v:l -l duration:,network:,type:,verbose:,log -- "$@")
+then
+	exit 1
+fi
+
+set -- $options
+
+while [ $# -gt 0 ]
+do
+    case $1 in
+    -d|--duration) duration="$2" ; shift;;
+    -n|--network) network=$2 ; shift;;
+    -t|--type) scan_type="$2" ; shift;;
+    -v|--verbose) verbose=$2 ; shift;;
+    -l|--log) log=true ;;
+    (--) shift; break;;
+    (-*) echo "$0: error - unrecognized option $1" 1>&2; exit 1;;
+    (*) break;;
+    esac
+    shift
+done
+
+PIDS=$(pgrep -d" " $ME);
+for PID in $PIDS
+do
+	[[ "$PID" -ne "$THIS" ]] && kill -9 -"$PID";
+done
+
+RED='\033[0;31m'
+GREEN=
+NC='\033[0m' # No Color
+printf "I ${RED}love${NC} Stack Overflow\n"
+
