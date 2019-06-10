@@ -52,15 +52,15 @@ ORANGE='\033[0;33m'
 NC='\033[0m' # No Color
 
 
-printf "${GREEN}Scanning 433MHz for short range devices "
+printf "${GREEN}Scanning 433MHz for short range devices for $duration seconds"
 mkdir -p ${RAW_DIR}/rtl_433
-(rtl_433 -T 30 -G -F json:${RAW_DIR}/rtl_433/433.json >/dev/null 2>&1;) &
+(rtl_433 -T $duration -G -F json:${RAW_DIR}/rtl_433/433.json >/dev/null 2>&1;) &
 spinner $!
 printf "\n${ORANGE}Detected N signals from X devices.${NC} \n"
 
-printf "${GREEN}Scanning 868MHz for short range devices "
+printf "${GREEN}Scanning 868MHz for short range devices for $duration seconds"
 mkdir -p ${RAW_DIR}/rtl_433
-(rtl_433 -T 30 -f 868M -G -F json:${RAW_DIR}/rtl_433/433.json >/dev/null 2>&1;) &
+(rtl_433 -T $duration -f 868M -G -F json:${RAW_DIR}/rtl_433/869M.json >/dev/null 2>&1;) &
 spinner $!
 printf "\n${ORANGE}Detected N signals from X devices.${NC} \n"
 
