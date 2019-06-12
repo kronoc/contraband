@@ -119,5 +119,9 @@ fi
 if $wlan
 then
 echo "test"
-	#wireshark and bluetooth things
+	#tshark wireshark and bluetooth things
+	#https://www.wireshark.org/docs/wsug_html_chunked/AppToolstshark.html
+	#http://www.iprogrammable.com/2017/11/10/how-to-use-wireshark-to-get-ip-camera-rtsp-url/
+#bettercap
+
 fi
