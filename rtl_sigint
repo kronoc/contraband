@@ -19,8 +19,9 @@ logfile="/tmp/rtl_sigint.log"
 network=true
 wlan=true
 rtl=true
+target_host="archive.org"
 
-if ! options=$(getopt -u -n "$ME" -o d:t:nvlwr -l duration:,type:,no-network,verbose,log,no-wlan.no-radio -- "$@")
+if ! options=$(getopt -u -n "$ME" -o d:t:h:nvlwr -l duration:,type:,target_host:,no-network,verbose,log,no-wlan.no-radio -- "$@")
 then
 	exit 1
 fi
@@ -33,6 +34,7 @@ do
     -d|--duration) duration="$2" ; shift;;
     -n|--no-network) network=false ;;
     -t|--type) scan_type="$2" ; shift;;
+    -h|--target-host) target_host="$2" ; shift;;
     -v|--verbose) verbose=true ;;
     -l|--log) log=true ;;
     -w|--no-wlan) wlan=false ;;
@@ -81,24 +83,24 @@ if $network
 then
 printf "${GREEN}Scanning for mDNS entries"
 mkdir -p ${RAW_DIR}/net
-(avahi-browse --all -f -t >${RAW_DIR}/net/avahi 2>/dev/null; ) &
+(avahi-browse --all -p -f -t >${RAW_DIR}/net/avahi 2>/dev/null; ) &
 spinner $!
 printf "\n${ORANGE}Detected N mDNS entries.${NC} \n"
 #basic network things
 
 printf "${GREEN}Running traceroute"
 mkdir -p ${RAW_DIR}/net
-(traceroute google.com >${RAW_DIR}/net/traceroute 2>/dev/null; ) &
+(traceroute $target_host >${RAW_DIR}/net/traceroute 2>/dev/null; ) &
 spinner $!
-printf "\n${ORANGE}N hops detected to google.com${NC} \n"
+printf "\n${ORANGE}N hops detected to $target_host${NC} \n"
 
 
 
 printf "${GREEN}Running ping"
 mkdir -p ${RAW_DIR}/net
-(ping -c 10 google.com >${RAW_DIR}/net/ping 2>/dev/null; ) &
+(ping -c 10 $target_host >${RAW_DIR}/net/ping 2>/dev/null; ) &
 spinner $!
-printf "\n${ORANGE}N av/max/min latency detected to google.com${NC} \n"
+printf "\n${ORANGE}N av/max/min latency detected to $target_host${NC} \n"
 
 #basic network things
 #nmap
