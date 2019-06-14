@@ -60,20 +60,31 @@ NC='\033[0m' # No Color
 if $rtl 
 then
 
-printf "${GREEN}Scanning 433MHz for short range devices for $duration seconds"
-mkdir -p ${RAW_DIR}/rtl_433
-(rtl_433 -T $duration -G -F json:${RAW_DIR}/rtl_433/433M.json >/dev/null 2>&1;) &
-spinner $!
-printf "\n${ORANGE}Detected N signals from X devices.${NC} \n"
 
-printf "${GREEN}Scanning 868MHz for short range devices for $duration seconds"
-mkdir -p ${RAW_DIR}/rtl_433
-(rtl_433 -T $duration -f 868M -G -F json:${RAW_DIR}/rtl_433/868M.json >/dev/null 2>&1;) &
-spinner $!
-printf "\n${ORANGE}Detected N signals from X devices.${NC} \n"
+for f in "433.92M" "868M"; do
+	printf "${GREEN}Scanning ${f} for short range devices for $duration seconds"
+	mkdir -p ${RAW_DIR}/rtl_433
+	(rtl_433 -T $duration -f ${f} -G -F json:${RAW_DIR}/rtl_433/${f}.json >/dev/null 2>&1;) &
+	spinner $!
+	printf "\n${ORANGE}Detected N signals from X devices.${NC} \n"
+done 
 
-#run rtl_power scan
 
+declare -a rp_f=("49" "50" ".025" "300" "310" ".025")
+rp_fl=${#rp_f[@]}
+for (( i=1; i<${rp_fl}+1; i++ ));
+do
+	start="${rp_f[$i-1]}M";
+	end="${rp_f[$i]}M";
+	step="${rp_f[$i+1]}M";	
+	printf "${GREEN}Scanning ${start} for signals for $duration seconds"
+        mkdir -p ${RAW_DIR}/rtl_power
+        (/usr/bin/rtl_power -f ${start}:${end}:${step} -g 30 -i 1 -e ${duration}s >${RAW_DIR}/rtl_power/${start}-${end} 2>/dev/null;) &
+	#rtl_power -f 48M:50M:.025M -g 30 -i 1 | awk 'BEGIN {t=0} {if (t==0) {t=$2; n=0; s=0}; if (t==$2) {s+=$7; n++} else {print s/n; t=0}}'
+	spinner $!
+        printf "\n${ORANGE}Detected N signals.${NC} \n"
+	i=$i+2
+done
 
 
 
