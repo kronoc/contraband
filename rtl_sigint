@@ -60,7 +60,6 @@ NC='\033[0m' # No Color
 if $rtl 
 then
 
-
 for f in "433.92M" "868.35M"; do
 	printf "${GREEN}Scanning ${f} microband for short range devices over $duration seconds"
 	mkdir -p ${RAW_DIR}/rtl_433
@@ -68,7 +67,6 @@ for f in "433.92M" "868.35M"; do
 	spinner $!
 	printf "\n${ORANGE}Detected N signals from X devices.${NC} \n"
 done 
-
 
 declare -a rp_f=("49" "50" ".025" "139" "140" ".1" "173.225" "180" ".1" "398" "399.5" ".1" "854.75" "860.725" ".025" "864.15" "868.05" ".1")
 rp_fl=${#rp_f[@]}
@@ -79,13 +77,12 @@ do
 	step="${rp_f[$i+1]}M";	
 	printf "${GREEN}Scanning ${start} - ${end} in $step steps for signals over $duration seconds"
         mkdir -p ${RAW_DIR}/rtl_power
-        (/usr/bin/rtl_power -f ${start}:${end}:${step} -g 30 -i 1 -e ${duration}s >${RAW_DIR}/rtl_power/${start}-${end} 2>/dev/null;) &
+        (/usr/bin/rtl_power -f ${start}:${end}:${step} -i 1 -e ${duration}s >${RAW_DIR}/rtl_power/${start}-${end} 2>/dev/null;) &
 	#rtl_power -f 48M:50M:.025M -g 30 -i 1 | awk 'BEGIN {t=0} {if (t==0) {t=$2; n=0; s=0}; if (t==$2) {s+=$7; n++} else {print s/n; t=0}}'
 	spinner $!
         printf "\n${ORANGE}Detected N signals.${NC} \n"
 	i=$i+2
 done
-
 
 
 fi
@@ -106,7 +103,6 @@ spinner $!
 printf "\n${ORANGE}N hops detected to $target_host${NC} \n"
 
 
-
 printf "${GREEN}Running ping"
 mkdir -p ${RAW_DIR}/net
 (ping -c 10 $target_host >${RAW_DIR}/net/ping 2>/dev/null; ) &
@@ -115,14 +111,8 @@ printf "\n${ORANGE}N av/max/min latency detected to $target_host${NC} \n"
 
 #basic network things
 #nmap
-
 #hcitool scan
 #btscanner
-
-
-
-
-
 
 fi
 
