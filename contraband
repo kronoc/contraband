@@ -7,12 +7,12 @@ ME="$(basename $0)";
 
 
 #config
-DATA_DIR=${HOME}/rtl_sigint
+DATA_DIR=${HOME}/contraband_data
 duration=120
 scan_type="default"
 verbose=false
 log=false
-logfile="/tmp/rtl_sigint.log"
+logfile="/tmp/contraband.log"
 network=true
 wlan=true
 rtl=true
