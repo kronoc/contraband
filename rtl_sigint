@@ -5,12 +5,10 @@ source spinner;
 THIS=$$;
 ME="$(basename $0)";
 
+
+#config
 DATA_DIR=${HOME}/rtl_sigint
 RAW_DIR=${DATA_DIR}/raw
-
-mkdir -p ${RAW_DIR}
-
-
 duration=120
 scan_type="default"
 verbose=false
@@ -56,6 +54,8 @@ do
 	[[ "$PID" -ne "$THIS" ]] && kill -9 -"$PID";
 done
 
+mkdir -p ${RAW_DIR}
+
 NC='\033[0m' # No Color
 RED=${NC}
 GREEN=${NC}
@@ -69,7 +69,6 @@ fi
 
 if $banner
 then
-#cat << BANNER
 IFS='' read -r -d '' ban <<"BANNER"
                    __             __                    __
   _________  ____  / /__________ _/ /_  ____ _____  ____/ /
