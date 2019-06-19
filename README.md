@@ -1,6 +1,6 @@
 # CONTRABAND
 
-_ A simple and brittle privacy scanner for RTL_SDR, Network, WLAN and Bluetooth _
+*A simple and brittle privacy scanner for RTL_SDR, Network, WLAN and Bluetooth*
 
 ## What is Contraband
 
@@ -10,19 +10,19 @@ Contraband is a simple bash script. It mananges a number of other pieces of soft
 Features include:
 
 - using an RTL_SDR dongle to scan for 
- - hidden data devices such as motion detectors and security sensors
- - hidden microphones and bugs
+  - hidden data devices such as motion detectors and security sensors
+  - hidden microphones and bugs
 - using the local network to
- - scan for any hosts advertising themselves over multicast dns
- - check latency to a known host
- - check the route to a known host
+  - scan for any hosts advertising themselves over multicast dns
+  - check latency to a known host
+  - check the route to a known host
 - using bluetooth
 - to log all locally visible bluetooth devices
 - using the local network to scan for
- - suspicious traffic which may indicate hidden wifi cameras or microphones
- - voice assistants
+  - suspicious traffic which may indicate hidden wifi cameras or microphones
+  - voice assistants
 - using a wireless network card
- - to scan for all nearby access points and wireless devices, including any hidden ones
+  - to scan for all nearby access points and wireless devices, including any hidden ones
 
 Gathered data is dumped to the local file system for later inspection/
 
